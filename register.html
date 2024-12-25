@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Medinet</title>
+    <title>Signup - Medinet</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -17,9 +17,10 @@
             color: #444;
         }
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 40px;
+        .signup-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
             border-radius: 15px;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             width: 100%;
@@ -27,38 +28,37 @@
             text-align: center;
         }
 
-        .login-container h1 {
+        .signup-container h1 {
+            margin-bottom: 20px;
             font-size: 2rem;
             font-weight: 600;
             color: #2e8b57;
-            margin-bottom: 20px;
         }
 
-        .login-container form {
+        .signup-container form {
             display: flex;
             flex-direction: column;
         }
 
         .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+            margin-bottom: 15px;
         }
 
         .form-group label {
+            display: block;
+            margin-bottom: 5px;
             font-weight: 400;
             color: #4a7c59;
-            margin-bottom: 5px;
-            display: block;
         }
 
         .form-group input {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: none;
             border-radius: 8px;
             font-size: 1rem;
             color: #333;
-            background: #f9f9f9;
+            background: #e9f7ef;
         }
 
         .form-group input:focus {
@@ -66,8 +66,8 @@
             box-shadow: 0 0 8px rgba(60, 179, 113, 0.8);
         }
 
-        .login-btn {
-            padding: 12px;
+        .signup-btn {
+            padding: 10px;
             background: #88d8b0;
             border: none;
             border-radius: 8px;
@@ -78,22 +78,21 @@
             transition: all 0.3s ease;
         }
 
-        .login-btn:hover {
+        .signup-btn:hover {
             background: #55b890;
         }
 
-        .footer-text {
+        .signup-container .footer-text {
             margin-top: 15px;
             font-size: 0.9rem;
             color: #5f7a69;
         }
 
-        .footer-text a {
+        .signup-container .footer-text a {
             color: #2e8b57;
             text-decoration: underline;
         }
 
-        /* Decorative Elements */
         .decorative-element {
             position: absolute;
             border-radius: 50%;
@@ -118,22 +117,24 @@
     </style>
 </head>
 <body>
-    <!-- Decorative Elements -->
     <div class="decorative-element one"></div>
     <div class="decorative-element two"></div>
-
-    <!-- Login Container -->
-    <div class="login-container">
-        <h1>Login to Medinet</h1>
-        <form action="/login" method="POST">
+    <div class="signup-container">
+        <h1>Join Medinet</h1>
+        <form>
             <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                <label for="username">Full Name</label>
+                <input type="text" id="username" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="password" placeholder="Create a password" required>
             </div>
-            <button type="submit" class="login-btn">Login</button>
+            <button type="submit" class="signup-btn">Sign Up</button>
         </form>
     </div>
 </body>
