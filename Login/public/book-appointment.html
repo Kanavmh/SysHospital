@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      color: #444;
+    }
+
+    /* Header Styling */
+    header {
+      background: #2e8b57;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1rem;
+      margin-top: 5px;
+    }
+
+    /* Main Container Styling */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+    }
+
+    .calendar-container,
+    .time-slots,
+    .booking-form {
+      margin-bottom: 20px;
+    }
+
+    h2, h3 {
+      color: #2e8b57;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* Calendar Styling */
+    .calendar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .day-of-week {
+      width: 40px;
+      text-align: center;
+      font-weight: bold;
+      color: #2e8b57;
+      margin-bottom: 10px;
+    }
+
+    .day {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 5px;
+      margin: 5px;
+      background: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .day:hover {
+      background-color: #88d8b0;
+      color: white;
+    }
+
+    .day.today {
+      background-color: #2e8b57;
+      color: white;
+    }
+
+    .day.selected {
+      background-color: #2e8b57;
+      color: white;
+    }
+
+    /* Time Slots Styling */
+    #time-slots-list {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    #time-slots-list li {
+      padding: 10px 15px;
+      border: 1px solid #88d8b0;
+      border-radius: 8px;
+      background: #f0f0f0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #time-slots-list li:hover {
+      background-color: #88d8b0;
+      color: white;
+    }
+
+    /* Booking Form Styling */
+    .booking-form form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .booking-form label {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 5px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .booking-form input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .booking-form button {
+      padding: 10px 20px;
+      background: #2e8b57;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .booking-form button:hover {
+      background-color: #1e6f47;
+    }
+
+    /* Footer Styling */
+    footer {
+      background: #2e8b57;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* Decorative Elements */
+    .decorative-element {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.4;
+    }
+
+    .decorative-element.one {
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.6);
+      top: 10%;
+      left: 15%;
+    }
+
+    .decorative-element.two {
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.4);
+      bottom: 20%;
+      right: 10%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Decorative Elements -->
+  <div class="decorative-element one"></div>
+  <div class="decorative-element two"></div>
+
+  <!-- Header -->
+  <header>
+    <h1>Schedule an Appointment</h1>
+    <p>Pick a date and time that works for you from the calendar below.</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Calendar -->
+    <div class="calendar-container">
+      <h2>Calendar</h2>
+      <div class="calendar">
+        <div class="day-of-week">Sun</div>
+        <div class="day-of-week">Mon</div>
+        <div class="day-of-week">Tue</div>
+        <div class="day-of-week">Wed</div>
+        <div class="day-of-week">Thu</div>
+        <div class="day-of-week">Fri</div>
+        <div class="day-of-week">Sat</div>
+
+        <!-- Calendar Days -->
+        <div class="day">1</div>
+        <div class="day">2</div>
+        <div class="day">3</div>
+        <div class="day">4</div>
+        <div class="day">5</div>
+        <div class="day">6</div>
+        <div class="day">7</div>
+        <div class="day">8</div>
+        <div class="day">9</div>
+        <div class="day">10</div>
+        <div class="day">11</div>
+        <div class="day">12</div>
+        <div class="day">13</div>
+        <div class="day">14</div>
+        <div class="day">15</div>
+        <div class="day">16</div>
+        <div class="day">17</div>
+        <div class="day">18</div>
+        <div class="day">19</div>
+        <div class="day">20</div>
+        <div class="day">21</div>
+        <div class="day">22</div>
+        <div class="day">23</div>
+        <div class="day">24</div>
+        <div class="day">25</div>
+        <div class="day">26</div>
+        <div class="day">27</div>
+        <div class="day">28</div>
+        <div class="day">29</div>
+        <div class="day">30</div>
+        <div class="day">31</div>
+        
+      </div>
+    </div>
+
+    <!-- Time Slots -->
+    <div class="time-slots">
+      <h2>Available Time Slots</h2>
+      <ul id="time-slots-list">
+        <li>9:00 AM</li>
+        <li>10:00 AM</li>
+        <li>11:00 AM</li>
+        <li>12:00 PM</li>
+        <li>1:00 PM</li>
+        <li>2:00 PM</li>
+        <li>3:00 PM</li>
+        <li>4:00 PM</li>
+      </ul>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="booking-form">
+      <h2>Booking Information</h2>
+      <form id="booking-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <button type="submit">Book Appointment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 Medismin. All rights reserved.</p>
+  </footer>
+</body>
+</html>
