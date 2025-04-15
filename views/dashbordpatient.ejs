@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus Healthcare Dashboard</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: white;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Navbar */
+
+    .navbar {
+
+
+      padding: 10px 20px;
+      /* Optional: Add padding for spacing */
+      background-color: blue;
+      /* Optional: Set a background color */
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 100px;
+      padding-left: 150px;
+      /* Space between the links */
+      list-style: none;
+      height: 150%;
+      width: 100%;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: white;
+      background-color: blue;
+      display: flex;
+
+
+
+    }
+
+    .nav-links a.active {
+
+      font-weight: bold;
+    }
+
+
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+    }
+
+    .login-btn {
+      background-color: var(--primary-color);
+      color: var(--white);
+      padding: 0.5rem 1.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-left: 1200px;
+      margin-top: 5px;
+    }
+
+    .login-btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+
+    /* Main content */
+    .main-content {
+      padding: 20px;
+      background-color: #f8f9fe;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .search-bar {
+      flex: 1;
+      margin: 0 20px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 12px 20px 12px 40px;
+      border: none;
+      background-color: #f0f2f5;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .header-icons a {
+      margin-left: 15px;
+      color: #666;
+      text-decoration: none;
+    }
+
+    /* Dashboard grid */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      grid-gap: 20px;
+    }
+
+    /* Cards */
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      padding: 5px 10px;
+      background-color: transparent;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      color: #666;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* Health Score */
+    .health-score {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .score-gauge {
+      position: relative;
+      width: 150px;
+      height: 150px;
+    }
+
+    .score-circle {
+      fill: none;
+      stroke: #eeeeee;
+      stroke-width: 10;
+    }
+
+    .score-progress {
+      fill: none;
+      stroke: #5538ee;
+      stroke-width: 10;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      transition: stroke-dashoffset 0.3s ease;
+    }
+
+    .score-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .score-value {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .score-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 5px;
+    }
+
+    .score-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      background-color: #e8fcef;
+      color: #0ebe62;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .score-description {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .action-button {
+      background-color: #5538ee;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 20px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+      background-color: #4a30d1;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 15px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 10px 15px;
+      color: #666;
+      cursor: pointer;
+      font-size: 14px;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: #333;
+      border-bottom: 2px solid #333;
+      font-weight: 500;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Health metrics chart */
+    .health-metrics {
+      height: 200px;
+      margin: 15px 0;
+      position: relative;
+    }
+
+    .metric-days {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .day {
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+      flex: 1;
+    }
+
+    .chart-bar {
+      width: 20px;
+      background-color: #e0e4fd;
+      position: absolute;
+      bottom: 30px;
+      border-radius: 4px 4px 0 0;
+      transition: height 0.3s ease;
+    }
+
+    .chart-bar.active {
+      background-color: #5538ee;
+    }
+
+    .chart-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chart-line {
+      height: 1px;
+      background-color: #eee;
+      width: 100%;
+    }
+
+    .chart-value {
+      position: absolute;
+      left: -25px;
+      font-size: 11px;
+      color: #999;
+    }
+
+    .heart-rate-badge {
+      position: absolute;
+      top: -20px;
+      background-color: #5538ee;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* Lab reports */
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table th {
+      text-align: left;
+      padding: 12px 10px;
+      font-weight: 500;
+      font-size: 14px;
+      color: #666;
+      border-bottom: 1px solid #eee;
+    }
+
+    .table td {
+      padding: 12px 10px;
+      font-size: 14px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .status-normal {
+      background-color: #e8fcef;
+      color: #0ebe62;
+    }
+
+    .status-pending {
+      background-color: #e9eaff;
+      color: #5538ee;
+    }
+
+    .status-low {
+      background-color: #e0f4ff;
+      color: #3da5e7;
+    }
+
+    /* Patient info */
+    .patient-card {
+      background-color: #f0f2ff;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .patient-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .patient-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+
+    .patient-info {
+      flex: 1;
+    }
+
+    .patient-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .patient-details {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .dark-mode-toggle {
+      width: 24px;
+      height: 24px;
+      background-color: #222;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    .patient-contact {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+
+    .patient-history {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    /* Calendar */
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .calendar-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .calendar-navigation {
+      display: flex;
+      align-items: center;
+    }
+
+    .calendar-nav-button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1px solid #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      color: #666;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    .days-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .day-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+    }
+
+    .day-number {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .day-name {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .day-item.active .day-number,
+    .day-item.active .day-name {
+      color: #5538ee;
+    }
+
+    .day-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #5538ee;
+      margin-top: 5px;
+    }
+
+    .day-highlight {
+      width: 32px;
+      height: 32px;
+      background-color: #5538ee;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    /* Appointments */
+    .appointment-list {
+      margin-top: 20px;
+    }
+
+    .appointment-item {
+      display: flex;
+      margin-bottom: 15px;
+      align-items: flex-start;
+    }
+
+    .appointment-time {
+      font-size: 13px;
+      color: #666;
+      width: 50px;
+    }
+
+    .appointment-info {
+      border-left: 2px solid;
+      padding-left: 10px;
+      flex: 1;
+    }
+
+    .appointment-info.cardiology {
+      border-color: #5538ee;
+    }
+
+    .appointment-info.medicine {
+      border-color: #0ebe62;
+    }
+
+    .appointment-doctor {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .appointment-specialty {
+      font-size: 12px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+
+    <div class="navbar-content">
+      <div class="logo">
+        <i class='bx bx-plus-medical'></i>
+        <span>Medismin</span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/aboutus">About</a></li>
+        <li><a href="/bookappointment">Book-Appointment</a></li>
+        <li><a href="/dashborddoctor">Dashbord-Doctor</a></li>
+        <li><a href="/dashbordpatient">Dashbord-Patient</a></li>
+        
+
+      </ul>
+
+    </div>
+  </nav>
+  <div class="container">
+    <div class="layout">
+
+
+      <!-- Main content -->
+      <div class="main-content">
+
+      </div>
+
+      <!-- Dashboard grid -->
+      <div class="dashboard-grid">
+        <!-- Left column -->
+        <div class="left-column">
+          <!-- Health Score Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Overall Performance</div>
+              <div class="card-actions">
+                <span><i class="fas fa-arrow-up"></i> 95%</span>
+              </div>
+            </div>
+
+            <div class="health-score">
+              <div class="score-gauge">
+                <svg width="150" height="150" viewBox="0 0 150 150">
+                  <circle class="score-circle" cx="75" cy="75" r="60"></circle>
+                  <circle class="score-progress" cx="75" cy="75" r="60" stroke-dasharray="377" stroke-dashoffset="94">
+                  </circle>
+                </svg>
+                <div class="score-text">
+                  <div class="score-label">Avg Health Score</div>
+                  <div class="score-value">468</div>
+                  <div class="score-badge">Perfect</div>
+                </div>
+              </div>
+
+              <div class="score-description">
+                Martha Smith is healthier than 95% people
+              </div>
+
+              <button class="action-button">
+                Check Full Report
+              </button>
+            </div>
+          </div>
+
+          <!-- Lab Reports Card -->
+          <div class="card">
+            <div class="tabs">
+              <div class="tab active">Lab Reports</div>
+              <div class="tab">Prescription</div>
+              <div class="tab">Medication</div>
+              <div class="tab">Diagnosis</div>
+              <div class="tab">5+</div>
+            </div>
+
+            <div class="card-header">
+              <div class="card-title"></div>
+              <div class="card-actions">
+                <select class="dropdown">
+                  <option>Recent</option>
+                </select>
+              </div>
+            </div>
+
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Test Name</th>
+                  <th>Referred by</th>
+                  <th>Date</th>
+                  <th>Comments</th>
+                  <th>Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Electrocardiography</td>
+                  <td>Dr. Rafiqul Islam</td>
+                  <td>28 Jan, 2024</td>
+                  <td>Good! Take rest</td>
+                  <td><span class="status-badge status-normal">Normal</span></td>
+                </tr>
+                <tr>
+                  <td>Liver biopsy</td>
+                  <td>Dr. Fahim Ahmed</td>
+                  <td>12 Jan, 2024</td>
+                  <td>Waiting for diagram</td>
+                  <td><span class="status-badge status-pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>Blood Test</td>
+                  <td>Dr. Asad Khan</td>
+                  <td>10 Jan, 2024</td>
+                  <td>As needed</td>
+                  <td><span class="status-badge status-normal">Perfect</span></td>
+                </tr>
+                <tr>
+                  <td>Esophageal pH test</td>
+                  <td>Dr. Shahid Ali</td>
+                  <td>24 Dec, 2023</td>
+                  <td>Good</td>
+                  <td><span class="status-badge status-low">Low</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right column -->
+        <div class="right-column">
+          <!-- Analytics Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Analytics</div>
+              <div class="card-actions">
+                <select class="dropdown">
+                  <option>Weekly</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab active">Heart Rate</div>
+              <div class="tab">Blood Pressure</div>
+              <div class="tab">Glucose</div>
+              <div class="tab">4+</div>
+            </div>
+
+            <div class="health-metrics">
+              <div class="chart-lines">
+                <div class="chart-line"><span class="chart-value">180</span></div>
+                <div class="chart-line"><span class="chart-value">160</span></div>
+                <div class="chart-line"><span class="chart-value">140</span></div>
+                <div class="chart-line"><span class="chart-value">120</span></div>
+                <div class="chart-line"><span class="chart-value">100</span></div>
+                <div class="chart-line"><span class="chart-value">0</span></div>
+              </div>
+
+              <div class="chart-bar" style="height: 30%; left: 10%;"></div>
+              <div class="chart-bar" style="height: 45%; left: 24%;"></div>
+              <div class="chart-bar" style="height: 35%; left: 38%;"></div>
+              <div class="chart-bar" style="height: 40%; left: 52%;"></div>
+              <div class="chart-bar active" style="height: 60%; left: 66%;">
+                <div class="heart-rate-badge">107 bpm</div>
+              </div>
+              <div class="chart-bar" style="height: 30%; left: 80%;"></div>
+              <div class="chart-bar" style="height: 25%; left: 94%;"></div>
+
+              <div class="metric-days">
+                <div class="day">Sat</div>
+                <div class="day">Sun</div>
+                <div class="day">Mon</div>
+                <div class="day">Tue</div>
+                <div class="day">Wed</div>
+                <div class="day">Thu</div>
+                <div class="day">Fri</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Patient Info Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Profile</div>
+              <div class="card-actions">
+                <span>History</span>
+                <span>3+</span>
+              </div>
+            </div>
+
+
+
+            <!-- Appointments -->
+            <div class="calendar-header">
+              <div class="calendar-title">Appointments</div>
+              <div class="calendar-navigation">
+                <div class="calendar-nav-button">
+                  <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="calendar-nav-button">
+                  <i class="fas fa-chevron-right"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="days-row">
+              <div class="day-item">
+                <div class="day-number">19</div>
+                <div class="day-name">Mon</div>
+                <div class="day-dot"></div>
+              </div>
+              <div class="day-item">
+                <div class="day-number">20</div>
+                <div class="day-name">Mon</div>
+              </div>
+              <div class="day-item active">
+                <div class="day-highlight">21</div>
+                <div class="day-name">Sun</div>
+              </div>
+              <div class="day-item">
+                <div class="day-number">22</div>
+                <div class="day-name">Mon</div>
+                <div class="day-dot"></div>
+              </div>
+              <div class="day-item">
+                <div class="day-number">23</div>
+                <div class="day-name">Mon</div>
+              </div>
+            </div>
+
+            <div class="appointment-list">
+              <div class="appointment-item">
+                <div class="appointment-time">17:00</div>
+                <div class="appointment-info cardiology">
+                  <div class="appointment-doctor">Dr. Friedric Ziccardi</div>
+                  <div class="appointment-specialty">Cardiologist</div>
+                </div>
+              </div>
+
+              <div class="appointment-item">
+                <div class="appointment-time">20:00</div>
+                <div class="appointment-info medicine">
+                  <div class="appointment-doctor">Dr. Abagael Bitsui</div>
+                  <div class="appointment-specialty">Medicine</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Tab functionality
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+          const parent = this.parentElement;
+          parent.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Simulate loading data (for demonstration)
+      setTimeout(() => {
+        document.querySelectorAll('.chart-bar').forEach(bar => {
+          const randomHeight = Math.floor(Math.random() * 60) + 20;
+          bar.style.height = `${randomHeight}%`;
+        });
+      }, 1000);
+    });
+  </script>
+</body>
+
+</html>
