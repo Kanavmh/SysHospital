@@ -1,53 +1,63 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
 
-const express = require('express'); 
-const router = express.Router(); 
-const path = require('path');
-const usersFile = path.join(__dirname, "../models/users.json");  
-const fs = require('fs');
+// Signup Route
+router.post('/signup', async (req, res) => {
+    const { username, email, password, role } = req.body;
+    try {
+        // Check if user already exists
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).send('User already exists');
+        }
 
-router.post("/signup", (req, res) => {
-    const { username, password } = req.body;  
-  
-    if (!username || !password) {
-      return res.redirect("/signup"); // Redirect back if fields are empty
+        // Create new user
+        const newUser = new User({
+            username,
+            email,
+            password,
+            role
+        });
+
+        await newUser.save();
+        req.session.user = newUser;
+
+        // Redirect to respective dashboard
+        if (role === 'doctor') {
+            return res.redirect('/dashborddoctor');
+        } else {
+            return res.redirect('/dashbordpatient');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
     }
-  
-    let users = fs.existsSync(usersFile) ? JSON.parse(fs.readFileSync(usersFile, "utf8")) : []; 
-  
-    // Check if user already exists
-    if (users.find((user) => user.username === username)) {
-      return res.redirect("/login"); // Redirect to login if user exists
-    }
-  
-    // Add new user and save to file
-    users.push({ username, password });
-    fs.writeFileSync(usersFile, JSON.stringify(users, null, 2));
-  
-    res
-    .cookie('user', { username })
-    .redirect("/"); // Redirect to welcome page
-  });
-  
-  // Handle Login
-  router.post("/login", (req, res) => {
+});
+
+// Login Route
+router.post('/login', async (req, res) => {
     const { username, password } = req.body;
-  
-    if (!username || !password) {
-      return res.status(302).redirect("/signup");
+
+    try {
+        const user = await User.findOne({ username });
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(400).send('Invalid credentials');
+        }
+
+        req.session.user = user;
+
+        // Redirect based on role
+        if (user.role === 'doctor') {
+            return res.redirect('/dashborddoctor');
+        } else {
+            return res.redirect('/dashbordpatient');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
     }
-  
-    if (fs.existsSync(usersFile)) {
-      const users = JSON.parse(fs.readFileSync(usersFile, "utf8"));
-  
-      if (users.find((user) => user.username === username && user.password === password)) {
-        return res.status(302)
-        .cookie('user', {username})
-        .redirect("/"); // Redirect to welcome if login successful
-      }
-    2
-  
-    res.redirect("/signup"); // Redirect to signup if login fails
-  }
-  });
-  module.exports = router;
-  
+});
+
+module.exports = router;

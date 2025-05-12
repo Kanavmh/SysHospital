@@ -256,9 +256,11 @@
                 <% if(!name){%>
                     <a href="/login" class="auth-btn login-btn">Login</a>
                     <a href="/signup" class="auth-btn signup-btn">Sign Up</a>
-                <%}else{%>
-                    <a href="/" class="auth-btn signup-btn"><%=name%></a>
-                <%}%>
+                    <%}else{%>
+                        <a href="/" class="auth-btn signup-btn">
+                            <%=name%>
+                        </a>
+                        <%}%>
             </div>
         </div>
     </nav>
